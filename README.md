@@ -1,5 +1,31 @@
 # Задание 2
-1. Выданный [файлик](https://github.com/n-popov/nspde_hws/blob/main/ex1.cpp) модифицирован так, чтобы можно было удобно измерить время работы программы. Для измерения времени работы реализован класс RAII-таймера. За увеличение мелкости сетки отвечала родная функция UniformRefinement.
+1. Выданный [файлик](https://github.com/n-popov/nspde_hws/blob/main/ex1.cpp) модифицирован так, чтобы можно было удобно измерить время работы программы.
+
+Для измерения времени работы реализован класс RAII-таймера.
+
+```
+template<typename precision>
+class Timer {
+public:
+	Timer(): begin(std::chrono::steady_clock::now()) {}
+  
+	~Timer() {
+		std::cout << std::chrono::duration_cast<precision>(std::chrono::steady_clock::now() - begin).count() << std::endl;
+  }
+  
+	std::chrono::steady_clock::time_point begin;
+};
+
+```
+
+За увеличение мелкости сетки отвечала родная функция UniformRefinement:
+
+```
+for (int l = 0; l < refs; l++) {
+            mesh->UniformRefinement();
+        }        
+```
+
 2. Измерено время работы в мкс, при этом затраты на Refinement не учитываются:
 
 | N | time, mus    |
@@ -20,4 +46,14 @@
 ![Линейный](https://github.com/n-popov/nspde_hws/blob/main/result.png)
 ![Логарифмический](https://github.com/n-popov/nspde_hws/blob/main/result_logarithmic.png)
 
-3. Также в файлике реализована функция f_right и добавлена в расчёт.
+3. Также в файлике реализована функция f_right и добавлена в расчёт:
+```
+const auto f_right = [](const mfem::Vector &v) {
+	return v(0) * v(1);
+};
+```
+
+```
+FunctionCoefficient b_function(f_right);
+    		b.AddDomainIntegrator(new DomainLFIntegrator(b_function));
+```
