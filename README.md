@@ -17,4 +17,7 @@
 Получилась зависимость, похожая скорее на квадратичную, чем на линейную, что, наверное, должно быть очевидно, так как сетка двумерная.
 Приведём графики в [линейном](https://github.com/n-popov/nspde_hws/blob/main/result.png) и [логарифмическом по размеру сетки](https://github.com/n-popov/nspde_hws/blob/main/result_logarithmic.png) масштабе.
 
+![Линейный](https://github.com/n-popov/nspde_hws/blob/main/result.png)
+![Логарифмический](https://github.com/n-popov/nspde_hws/blob/main/result_logarithmic.png)
+
 3. Также в файлике реализована функция f_right и добавлена в расчёт.
